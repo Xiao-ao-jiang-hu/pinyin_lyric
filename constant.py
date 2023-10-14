@@ -31,4 +31,4 @@ swamp_immunity = 100
 unlock_super_weapon = 300
 
 bog_percent = 0.15
-mountain_persent = 0.05
+mountain_percent = 0.05

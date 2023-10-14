@@ -46,7 +46,7 @@ def init_cell_type():
     seed = random.random()
     if seed <= constant.bog_percent:
         return CellType(1)
-    if seed > 1 - constant.mountain_persent:
+    if seed > 1 - constant.mountain_percent:
         return CellType(2)
     return CellType(0)
 
