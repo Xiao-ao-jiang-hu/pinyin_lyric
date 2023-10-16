@@ -1,10 +1,10 @@
 import random
 
 import constant
-from gamedata import Farmer, MainGenerals, SubGenerals
+from gamedata import Farmer, MainGenerals, SubGenerals, SuperWeapon, WeaponType
 from gamestate import GameState, init_generals, update_round
 
-constant.mountain_persent = random.uniform(0.05, 0.1)
+constant.mountain_percent = random.uniform(0.05, 0.1)
 constant.bog_percent = random.uniform(0.05, 0.25)
 state = GameState()  # 每局游戏唯一的游戏状态类，所有的修改应该在此对象中进行
 init_generals(state)
@@ -13,7 +13,7 @@ player1: int = 1
 # 分别代表两个玩家，0是第一个玩家，1是第二个玩家，与gamestate里的相对应
 
 
-def show_state(state):
+def show_state(state: GameState):
     def print_color(color, end, message, background="0"):
         print("\033[" + color + ";" + background + "m" + message + "\033[0m", end=end)
 
@@ -82,10 +82,22 @@ def show_state(state):
                 else:
                     print(int(state.board[i][j].type), end=" ")
         print("")
-    print(state.coin)
+    print("round:", state.round)
+    print("coins:", state.coin)
+    print("super weapons:", state.active_super_weapon)
+    print("super weapon cds:", state.super_weapon_cd)
+    print("generals:")
+    for i in state.generals:
+        print(i)
 
 
 while 1:
     update_round(state)
     show_state(state)
-    input()
+    a = input()
+    if a != "":
+        if int(a) == 1:
+            state.active_super_weapon.append(
+                SuperWeapon(WeaponType(0), 0, 10, 10, [8, 8])
+            )
+            state.super_weapon_cd[0] = 10
