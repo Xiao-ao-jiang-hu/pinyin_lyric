@@ -63,6 +63,7 @@ class Skill:
 @dataclass
 class SuperWeapon:
     type: WeaponType = WeaponType(0)
+    player: int = -1
     cd: int = 0
     rest: int = 0
     position: list = field(default_factory=lambda: [0, 0])
