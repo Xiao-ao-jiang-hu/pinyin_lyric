@@ -92,27 +92,29 @@ song_id = []
 with open('step16_result.jsonl', 'r', encoding="utf-8") as f:
     cnt = 0
     for line in tqdm(f):
-        lyric_dict = json.loads(line)
-        sentence_list = lyric_dict["no_punctuation_lyric"]
-        song_list += sentence_list
-        song_len.append(len(sentence_list))
-        song_id.append(lyric_dict['lyric_id'])
-        cnt+=1
+        cnt += 1
+        
         # if cnt > 10:
         #     break
         # print(data["generation_string"])
-        if cnt % 10000 == 0:
-            print("computing")
-            final_res = tone_detect(song_list)
-            st = 0
-            print("writing into file"+f'outputs/lyric_test_res{cnt/10000}.txt')
-            with open(f'outputs/lyric_test_res{int(cnt/10000)}.jsonl', 'w') as fout:
-                for l in trange(len(song_len)):
-                    cur_song = final_res[st:st+song_len[l]]
-                    cur_song_str = json.dumps(cur_song, ensure_ascii=False)
-                    fout.write("{\"id\":"+str(song_id[l])+", \"lyric\":"+cur_song_str+'}\n') 
-                    st += song_len[l]
-            song_list = []
-            song_len = []
-            song_id = [] 
+        if cnt > 470000:
+            lyric_dict = json.loads(line)
+            sentence_list = lyric_dict["no_punctuation_lyric"]
+            song_list += sentence_list
+            song_len.append(len(sentence_list))
+            song_id.append(lyric_dict['lyric_id'])
+            cnt+=1
+print("computing")
+final_res = tone_detect(song_list)
+st = 0
+print("writing into file"+f'outputs/lyric_test_res{48}.txt')
+with open(f'outputs/lyric_test_res{48}.jsonl', 'w') as fout:
+    for l in trange(len(song_len)):
+        cur_song = final_res[st:st+song_len[l]]
+        cur_song_str = json.dumps(cur_song, ensure_ascii=False)
+        fout.write("{\"id\":"+str(song_id[l])+", \"lyric\":"+cur_song_str+'}\n') 
+        st += song_len[l]
+song_list = []
+song_len = []
+song_id = [] 
             
